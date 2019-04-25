@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import DeliveryService from '@/services/DeliveryService'
 
 export default {
   name: 'Start',
@@ -19,9 +20,16 @@ export default {
 
   },
   mounted() {
-    setTimeout(() => {
-      this.$router.push({ path: 'home' })
-    }, 1000)
+    this.checkAlive()
+  },
+  methods: {
+    async checkAlive() {
+      const response = await DeliveryService.checkAlive()
+
+      setTimeout(() => {
+        response ? this.$router.push('home') : this.$router.push('sleep')
+      }, 1000)
+    }
   }
 }
 </script>
