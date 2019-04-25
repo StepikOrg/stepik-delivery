@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import DeliveryService from '@/services/DeliveryService'
+
 export default {
   data() {
     return {}
@@ -63,6 +65,11 @@ export default {
         autoHideDelay: 3000,
         appendToast: append
       })
+      this.testGet()
+    },
+    async testGet() {
+      const response = await DeliveryService.testGet()
+      console.log(response)
     }
   }
 }
