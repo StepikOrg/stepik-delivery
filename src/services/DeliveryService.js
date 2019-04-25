@@ -9,6 +9,14 @@ export default {
     return Api().get(getRandom() ? 'alive/true.json' : 'alive/false.json')
   },
 
+  getPromotion () {
+    return Api().get('promotion.json')
+  },
+
+  getMeals () {
+    return Api().get('meals.json')
+  },
+
   testPost (params) {
     return Api().post('test', params)
   },

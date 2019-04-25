@@ -16,7 +16,7 @@ export default {
     Navbar
   },
   beforeCreate() {
-    // Тут будем просить айпи
+
   }
 }
 </script>

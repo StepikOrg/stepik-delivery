@@ -5,7 +5,7 @@
       <b-card no-body>
         <b-list-group flush>
           <b-list-group-item>Загружаем время доставки</b-list-group-item>
-          <b-list-group-item>Загружаем акции</b-list-group-item>
+          <b-list-group-item v-if="promotion">{{ promotion.title }}</b-list-group-item>
           <b-list-group-item>
             <b-input-group>
               <b-form-input placeholder="Введите промокод"></b-form-input>
@@ -19,28 +19,15 @@
     </b-col>
   </b-row>
   <b-row class="mt-3">
-    <b-col>
-      <strong>3 блюда в каталоге</strong>
+    <b-col v-if="meals.length">
+      <strong>{{ mealsCount }} блюда в каталоге</strong>
       <ul class="list-unstyled mt-3">
-        <b-media tag="li">
-          <b-img slot="aside" blank blank-color="#abc" width="64" alt="placeholder"></b-img>
+        <b-media v-for="item in meals" :key="item.id" class="my-4" tag="li">
+          <b-img slot="aside" :src="item.picture" blank-color="#abc" height="64" width="64" alt="placeholder"></b-img>
 
-          <h5 class="mt-0 mb-1">Название блюда</h5>
-          <p class="mb-0">Описание блюда</p>
-        </b-media>
-
-        <b-media tag="li" class="my-4">
-          <b-img slot="aside" blank blank-color="#cba" width="64" alt="placeholder"></b-img>
-
-          <h5 class="mt-0 mb-1">Название блюда</h5>
-          <p class="mb-0">Описание блюда</p>
-        </b-media>
-
-        <b-media tag="li">
-          <b-img slot="aside" blank blank-color="#bac" width="64" alt="placeholder"></b-img>
-
-          <h5 class="mt-0 mb-1">Название блюда</h5>
-          <p class="mb-0">Описание блюда</p>
+          <strong class="mt-0 mb-1">{{ item.title }}</strong>
+          <p class="mb-0">{{ item.price }} рублей</p>
+          <b-button @click="addMeal(item)">Добавить</b-button>
         </b-media>
       </ul>
     </b-col>
@@ -49,9 +36,23 @@
 </template>
 
 <script>
+import DeliveryService from '@/services/DeliveryService'
+
 export default {
   data() {
-    return {}
+    return {
+      promotion: null,
+      meals: [],
+    }
+  },
+  computed: {
+    mealsCount() {
+      return this.meals.length
+    }
+  },
+  mounted() {
+    this.getPromotion()
+    this.getMeals()
   },
   methods: {
     makeToast(append = false) {
@@ -63,6 +64,15 @@ export default {
         autoHideDelay: 3000,
         appendToast: append
       })
+    },
+    async getPromotion() {
+      this.promotion = await DeliveryService.getPromotion()
+    },
+    async getMeals() {
+      this.meals = await DeliveryService.getMeals()
+    },
+    addMeal (meal) {
+      this.$store.commit('ADD_MEAL', meal)
     }
   }
 }

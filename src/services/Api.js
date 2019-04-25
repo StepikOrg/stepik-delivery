@@ -2,7 +2,10 @@ import axios from 'axios'
 
 export default () => {
   const instance = axios.create({
-    baseURL: 'http://localhost:8080/data',
+
+    baseURL: `${localStorage.getItem('apiIp')}${process.env.NODE_ENV === 'production'
+      ? 'stepik-delivery/'
+      : ''}data`,
     headers: {
       'Content-Type': 'application/json'
     }
