@@ -2,7 +2,9 @@
   <div id="app">
     <navbar />
     <b-container>
-      <router-view/>
+      <transition name="fade">
+        <router-view/>
+      </transition>
     </b-container>
   </div>
 </template>
@@ -14,13 +16,21 @@ export default {
   name: 'App',
   components: {
     Navbar
-  },
-  beforeCreate() {
-
   }
 }
 </script>
 
 <style lang="scss">
+.fade-enter-active, .fade-leave-active {
+  transition-property: opacity;
+  transition-duration: .15s;
+}
 
+.fade-enter-active {
+  transition-delay: .15s;
+}
+
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
 </style>

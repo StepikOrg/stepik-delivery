@@ -6,9 +6,12 @@
         <b-media v-for="item in orderMeals" :key="item.id" class="my-4" tag="li">
           <b-img slot="aside" :src="item.picture" blank-color="#abc" height="64" width="64" alt="placeholder"></b-img>
 
-          <strong class="mt-0 mb-1">{{ item.title }}</strong>
-          <p class="mb-0">{{ item.price }} рублей</p>
-          <b-button @click="addMeal(item)">Добавить</b-button>
+          <div class="d-flex align-items-center justify-content-between">
+            <div class="">
+              <strong class="mt-0 mb-1">{{ item.title }}</strong>
+              <p class="mb-0">{{ item.price }} рублей</p>
+            </div>
+          </div>
         </b-media>
       </ul>
     </b-col>

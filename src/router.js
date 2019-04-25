@@ -22,12 +22,14 @@ export default new Router({
       path: '/home',
       name: 'home',
       component: Home
-      // component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
       path: '/order',
       name: 'order',
-      component: Order
+      component: Order,
+      meta: {
+        title: "Корзина"
+      }
     },
     {
       path: '/sleep',
