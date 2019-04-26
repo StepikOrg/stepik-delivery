@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navbar />
+    <navbar :show="showNavbar"/>
     <b-container>
       <transition name="fade">
         <router-view/>
@@ -16,6 +16,11 @@ export default {
   name: 'App',
   components: {
     Navbar
+  },
+  computed: {
+    showNavbar () {
+      return this.$route.meta.navbar
+    }
   }
 }
 </script>

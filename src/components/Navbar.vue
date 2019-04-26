@@ -1,5 +1,5 @@
 <template>
-<b-navbar toggleable="lg" type="dark" variant="dark">
+<b-navbar v-if="show" toggleable="lg" type="dark" variant="dark">
   <b-navbar-brand>
     <template v-if="isMainPage">
       STEPIKDELIVERY
@@ -23,17 +23,29 @@
         alt="Go back"
         width="20"
         height="20">
+      <b-badge class="ml-1" variant="light">{{ orderMealsCount }}</b-badge>
     </b-nav-item>
   </b-navbar-nav>
 </b-navbar>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Navbar',
+  props: {
+    show: {
+      type: Boolean,
+      default: true
+    }
+  },
   computed: {
+    ...mapGetters([
+      'orderMealsCount'
+    ]),
     isMainPage () {
-      return this.$route.name === "home"
+      return this.$route.name === 'home'
     },
     pageTitle () {
       return this.$route.meta.title

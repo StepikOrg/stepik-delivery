@@ -2,18 +2,9 @@
 <div class="">
   <b-row class="mt-3">
     <b-col v-if="orderMeals.length">
-      <ul class="list-unstyled mt-3">
-        <b-media v-for="item in orderMeals" :key="item.id" class="my-4" tag="li">
-          <b-img slot="aside" :src="item.picture" blank-color="#abc" height="64" width="64" alt="placeholder"></b-img>
-
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="">
-              <strong class="mt-0 mb-1">{{ item.title }}</strong>
-              <p class="mb-0">{{ item.price }} рублей</p>
-            </div>
-          </div>
-        </b-media>
-      </ul>
+      <meals-list
+        :meals="orderMeals"
+        @meal:remove="removeMeal"/>
     </b-col>
   </b-row>
 </div>
@@ -22,7 +13,15 @@
 <script>
 import DeliveryService from '@/services/DeliveryService'
 
+import MealsList from '@/components/MealsList'
+
+import { mapGetters } from 'vuex'
+
 export default {
+  name: 'Order',
+  components: {
+    MealsList
+  },
   data() {
     return {
       promotion: null,
@@ -30,15 +29,14 @@ export default {
     }
   },
   computed: {
-    orderMeals() {
-      return this.$store.getters.orderMeals
-    }
-  },
-  mounted() {
-
+    ...mapGetters([
+      'orderMeals'
+    ])
   },
   methods: {
-
+    removeMeal (meal) {
+      this.$store.commit('REMOVE_MEAL', meal)
+    }
   }
 }
 </script>

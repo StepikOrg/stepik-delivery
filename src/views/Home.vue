@@ -20,29 +20,11 @@
   </b-row>
   <b-row class="mt-3">
     <b-col v-if="meals.length">
-      <strong>{{ mealsCount }} блюда в каталоге</strong>
-      <ul class="list-unstyled mt-3">
-        <b-media v-for="item in meals" :key="item.id" class="my-4" tag="li">
-          <b-img slot="aside" :src="item.picture" blank-color="#abc" height="64" width="64" alt="placeholder"></b-img>
-
-          <div class="d-flex align-items-center justify-content-between">
-            <div class="">
-              <strong class="mt-0 mb-1">{{ item.title }}</strong>
-              <p class="mb-0">{{ item.price }} рублей</p>
-            </div>
-            <div>
-              <template>
-                <img
-                  src="@/assets/icons/add.svg"
-                  alt="Go back"
-                  width="20"
-                  height="20"
-                  @click="addMeal(item)">
-              </template>
-            </div>
-          </div>
-        </b-media>
-      </ul>
+      <meals-list
+        counter
+        :meals="meals"
+        @meal:add="addMeal"
+        @meal:remove="removeMeal"/>
     </b-col>
   </b-row>
 </div>
@@ -51,24 +33,25 @@
 <script>
 import DeliveryService from '@/services/DeliveryService'
 
+import MealsList from '@/components/MealsList'
+
 export default {
-  data() {
+  name: 'Home',
+  components: {
+    MealsList
+  },
+  data () {
     return {
       promotion: null,
       meals: [],
     }
   },
-  computed: {
-    mealsCount() {
-      return this.meals.length
-    }
-  },
-  mounted() {
+  mounted () {
     this.getPromotion()
     this.getMeals()
   },
   methods: {
-    makeToast(append = false) {
+    makeToast (append = false) {
       this.$bvToast.toast(`Промокод не найден`, {
         title: 'Ошибка',
         solid: true,
@@ -78,14 +61,17 @@ export default {
         appendToast: append
       })
     },
-    async getPromotion() {
+    async getPromotion () {
       this.promotion = await DeliveryService.getPromotion()
     },
-    async getMeals() {
+    async getMeals () {
       this.meals = await DeliveryService.getMeals()
     },
     addMeal (meal) {
       this.$store.commit('ADD_MEAL', meal)
+    },
+    removeMeal (meal) {
+      this.$store.commit('REMOVE_MEAL', meal)
     }
   }
 }

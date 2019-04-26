@@ -1,12 +1,12 @@
 <template>
-  <b-row>
-    <div class="m-auto">
+  <b-row class="vh-100">
+    <div class="w-100 d-flex flex-column align-items-center justify-content-center">
       <img
         src="@/assets/icons/loading.svg"
         alt="loading..."
         width="156"
         height="156">
-      <p class="text-center">Ммм... загрузка</p>
+      <strong>Ммм... загрузка</strong>
     </div>
   </b-row>
 </template>

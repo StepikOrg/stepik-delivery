@@ -16,7 +16,10 @@ export default new Router({
     {
       path: '/',
       name: 'start',
-      component: Start
+      component: Start,
+      meta: {
+        navbar: false
+      }
     },
     {
       path: '/home',
@@ -34,7 +37,10 @@ export default new Router({
     {
       path: '/sleep',
       name: 'sleep',
-      component: Sleep
+      component: Sleep,
+      meta: {
+        navbar: false
+      }
     }
   ]
 })
