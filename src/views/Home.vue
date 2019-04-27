@@ -4,7 +4,17 @@
     <b-col>
       <b-card no-body>
         <b-list-group flush>
-          <b-list-group-item>Загружаем время доставки</b-list-group-item>
+          <b-list-group-item>
+            <template v-if="!workhours">
+              Загружаем время доставки
+            </template>
+            <template v-else>
+              Сегодня доставляем с {{ workhours.opens }} до {{ workhours.closes }}
+            </template>
+            <template v-if="deliveryTime">
+              Привезем ваш заказ в {{ deliveryTime }}
+            </template>
+          </b-list-group-item>
           <b-list-group-item v-if="promotion">{{ promotion.title }}</b-list-group-item>
           <b-list-group-item>
             <b-input-group>
@@ -44,11 +54,15 @@ export default {
     return {
       promotion: null,
       meals: [],
+      workhours: null,
+      deliveryTime: null
     }
   },
   mounted () {
     this.getPromotion()
     this.getMeals()
+    this.getWorkHours()
+    this.getDeliveryTime()
   },
   methods: {
     makeToast (append = false) {
@@ -66,6 +80,15 @@ export default {
     },
     async getMeals () {
       this.meals = await DeliveryService.getMeals()
+    },
+    async getWorkHours () {
+      this.workhours = await DeliveryService.getWorkHours()
+    },
+    async getDeliveryTime () {
+      const delivers = await DeliveryService.getDeliveryTime()
+      const time = new Date(delivers.time * 1000)
+
+      this.deliveryTime = `${time.getHours()}:${time.getMinutes()}`
     },
     addMeal (meal) {
       this.$store.commit('ADD_MEAL', meal)

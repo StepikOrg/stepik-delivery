@@ -17,11 +17,15 @@ export default {
     return Api().get('meals.json')
   },
 
-  testPost (params) {
-    return Api().post('test', params)
+  getWorkHours () {
+    return Api().get('workhours.json')
   },
 
-  testGet () {
-    return Api().get('test.json')
+  getDeliveryTime () {
+    return Api().get('delivers.json')
+  },
+
+  testPost (params) {
+    return Api().post('test', params)
   }
 }
