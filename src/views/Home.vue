@@ -29,12 +29,17 @@
     </b-col>
   </b-row>
   <b-row class="mt-3">
-    <b-col v-if="meals.length">
-      <meals-list
-        counter
-        :meals="meals"
-        @meal:add="addMeal"
-        @meal:remove="removeMeal"/>
+    <b-col>
+      <template v-if="meals.length">
+        <meals-list
+          counter
+          :meals="meals"
+          @meal:add="addMeal"
+          @meal:remove="removeMeal"/>
+      </template>
+      <template v-else>
+        <strong>Загружаем список блюд</strong>
+      </template>
     </b-col>
   </b-row>
 </div>
@@ -65,14 +70,14 @@ export default {
     this.getDeliveryTime()
   },
   methods: {
-    makeToast (append = false) {
+    makeToast () {
       this.$bvToast.toast(`Промокод не найден`, {
         title: 'Ошибка',
         solid: true,
         variant: 'danger',
         toaster: 'b-toaster-top-center',
         autoHideDelay: 3000,
-        appendToast: append
+        appendToast: false
       })
     },
     async getPromotion () {

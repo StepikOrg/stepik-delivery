@@ -1,6 +1,7 @@
 <template>
 <div class="meals-list">
   <strong v-if="counter">{{ meals.length }} блюда в каталоге</strong>
+  <strong v-if="totalPrice">{{ meals.length }} товаров на сумму {{ totalPrice }} рублей</strong>
   <ul class="list-unstyled mt-3">
     <b-media v-for="item in meals" :key="item.id" class="mb-4" tag="li">
       <b-img
@@ -54,6 +55,14 @@ export default {
     counter: {
       type: Boolean,
       default: false
+    },
+    order: {
+      type: Boolean,
+      default: false
+    },
+    totalPrice: {
+      type: Number,
+      default: 0
     }
   },
   methods: {
