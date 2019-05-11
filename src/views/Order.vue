@@ -1,25 +1,23 @@
 <template>
-<div class="">
-  <b-row class="mt-3">
-    <b-col>
-      <template v-if="isActiveOrder">
-        <b-alert variant="success" show>Заказ отправлен, ждите 🙂</b-alert>
-      </template>
-      <template v-else-if="orderMeals.length">
-        <meals-list
-          order
-          :meals="orderMeals"
-          :totalPrice="totalPrice"
-          @meal:remove="removeMeal"/>
-        <order-form
-          @order:send="sendOrder"/>
-      </template>
-      <template v-else>
-        <b-alert variant="dark" show>Корзина пуста</b-alert>
-      </template>
-    </b-col>
-  </b-row>
-</div>
+<b-row class="mt-3">
+  <b-col>
+    <template v-if="isActiveOrder">
+      <b-alert variant="success" show>Заказ отправлен, ждите 🙂</b-alert>
+    </template>
+    <template v-else-if="orderMeals.length">
+      <meals-list
+        order
+        :meals="orderMeals"
+        :totalPrice="totalPrice"
+        @meal:remove="removeMeal"/>
+      <order-form
+        @order:send="sendOrder"/>
+    </template>
+    <template v-else>
+      <b-alert variant="danger" show>Корзина пуста</b-alert>
+    </template>
+  </b-col>
+</b-row>
 </template>
 
 <script>

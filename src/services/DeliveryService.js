@@ -29,6 +29,10 @@ export default {
     return Api().get('meals')
   },
 
+  getOrders () {
+    return Api().get('orders')
+  },
+
   getWorkHours () {
     return Api().get('workhours')
   },

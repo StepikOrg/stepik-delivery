@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Start from './views/Start.vue'
 import Home from './views/Home.vue'
 import Order from './views/Order.vue'
+import Profile from './views/Profile.vue'
 
 import Sleep from './views/Sleep.vue'
 
@@ -32,6 +33,14 @@ export default new Router({
       component: Order,
       meta: {
         title: "Корзина"
+      }
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
+      meta: {
+        title: "Профиль"
       }
     },
     {

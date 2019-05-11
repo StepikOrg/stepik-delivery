@@ -16,10 +16,22 @@
       </div>
     </template>
   </b-navbar-brand>
-  <b-navbar-nav class="ml-auto">
-    <b-nav-item v-if="isMainPage" :to="{ name: 'order' }">
+  <b-navbar-nav class="d-flex flex-row ml-auto">
+    <b-nav-item
+      v-if="isMainPage"
+      class="mr-3"
+      :to="{ name: 'profile' }">
       <img
-        src="@/assets/icons/card.svg"
+        src="@/assets/icons/profile.svg"
+        alt="Go back"
+        width="20"
+        height="20">
+    </b-nav-item>
+    <b-nav-item
+      v-if="isMainPage"
+      :to="{ name: 'order' }">
+      <img
+        src="@/assets/icons/cart.svg"
         alt="Go back"
         width="20"
         height="20">
