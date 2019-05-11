@@ -1,12 +1,16 @@
 import * as types from '../types'
 
 const state = {
-  orderMeals: []
+  orderMeals: [],
+  promocode: null,
+  isActive: false
 }
 
 const getters = {
   orderMeals: state => state.orderMeals,
-  orderMealsCount: state => state.orderMeals.length
+  orderMealsCount: state => state.orderMeals.length,
+  promocode: state => state.promocode,
+  isActiveOrder: state => state.isActive
 }
 
 const mutations = {
@@ -15,6 +19,18 @@ const mutations = {
   },
   [types.REMOVE_MEAL] (state, meal) {
     state.orderMeals = state.orderMeals.filter((i) => i.id !== meal.id)
+  },
+  [types.RESET_CARD] (state) {
+    state.orderMeals = []
+  },
+  [types.SET_PROMOCODE] (state, promocode) {
+    state.promocode = {
+      name: promocode.name,
+      discount: promocode.discount
+    }
+  },
+  [types.SET_ORDER_ACTIVE] (state) {
+    state.isActive = true
   }
 }
 

@@ -2,30 +2,13 @@
 <div class="">
   <b-row class="mt-3">
     <b-col>
-      <b-card no-body>
-        <b-list-group flush>
-          <b-list-group-item>
-            <template v-if="!workhours">
-              Загружаем время доставки
-            </template>
-            <template v-else>
-              Сегодня доставляем с {{ workhours.opens }} до {{ workhours.closes }}
-            </template>
-            <template v-if="deliveryTime">
-              Привезем ваш заказ в {{ deliveryTime }}
-            </template>
-          </b-list-group-item>
-          <b-list-group-item v-if="promotion">{{ promotion.title }}</b-list-group-item>
-          <b-list-group-item>
-            <b-input-group>
-              <b-form-input placeholder="Введите промокод"></b-form-input>
-              <b-input-group-append>
-                <b-button @click="makeToast()" size="sm" text="Button" variant="success">Применить</b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </b-list-group-item>
-        </b-list-group>
-      </b-card>
+      <home-card
+      :promotion="promotion"
+      :promocode="promocode"
+      :workhours="workhours"
+      :activeOrder="activeOrder"
+      :deliveryTime="deliveryTime"
+      @promocode:set="setPromocode"/>
     </b-col>
   </b-row>
   <b-row class="mt-3">
@@ -34,6 +17,7 @@
         <meals-list
           counter
           :meals="meals"
+          :promocode="promocode"
           @meal:add="addMeal"
           @meal:remove="removeMeal"/>
       </template>
@@ -49,36 +33,62 @@
 import DeliveryService from '@/services/DeliveryService'
 
 import MealsList from '@/components/MealsList'
+import HomeCard from '@/components/HomeCard'
+
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
   components: {
-    MealsList
+    MealsList,
+    HomeCard
   },
   data () {
     return {
       promotion: null,
+      code: null,
       meals: [],
       workhours: null,
-      deliveryTime: null
+      deliveryTime: null,
+      activeOrder: null
     }
+  },
+  computed: {
+    ...mapGetters([ 'promocode' ])
   },
   mounted () {
     this.getPromotion()
     this.getMeals()
     this.getWorkHours()
     this.getDeliveryTime()
+    this.getActiveOrder()
   },
   methods: {
-    makeToast () {
-      this.$bvToast.toast(`Промокод не найден`, {
-        title: 'Ошибка',
-        solid: true,
-        variant: 'danger',
-        toaster: 'b-toaster-top-center',
-        autoHideDelay: 3000,
-        appendToast: false
-      })
+    async setPromocode (promocode) {
+      try {
+        const discount = await DeliveryService.setPromocode(promocode)
+        this.$store.commit('SET_PROMOCODE', {
+          name: promocode,
+          discount: discount
+        })
+        this.$bvToast.toast(`Промокод не найден`, {
+          title: 'Успех',
+          solid: true,
+          variant: 'success',
+          toaster: 'b-toaster-top-center',
+          autoHideDelay: 3000,
+          appendToast: false
+        })
+      } catch (e) {
+        this.$bvToast.toast(`Промокод не найден`, {
+          title: 'Ошибка',
+          solid: true,
+          variant: 'danger',
+          toaster: 'b-toaster-top-center',
+          autoHideDelay: 3000,
+          appendToast: false
+        })
+      }
     },
     async getPromotion () {
       this.promotion = await DeliveryService.getPromotion()
@@ -88,6 +98,9 @@ export default {
     },
     async getWorkHours () {
       this.workhours = await DeliveryService.getWorkHours()
+    },
+    async getActiveOrder () {
+      this.activeOrder = await DeliveryService.getActiveOrder()
     },
     async getDeliveryTime () {
       const delivers = await DeliveryService.getDeliveryTime()

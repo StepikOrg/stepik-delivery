@@ -5,13 +5,14 @@
   <ul class="list-unstyled mt-3">
     <b-media v-for="item in meals" :key="item.id" class="mb-4" tag="li">
       <b-img
+        v-if="item.picture"
         slot="aside"
         :src="item.picture"
         blank-color="#abc"
         height="59"
         width="59"
         rounded
-        alt="placeholder"/>
+        :alt="item.title"/>
 
       <div class="d-flex align-items-center justify-content-between">
         <div class="">

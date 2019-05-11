@@ -14,7 +14,7 @@ new Vue({
   store,
   beforeCreate () {
     if (!localStorage.getItem('apiIp')) {
-      const apiIp = prompt("Введите IP сервера", "/");
+      const apiIp = prompt("Введите IP сервера", "http://kosmose.online:8000/");
       if (apiIp != null) {
         localStorage.setItem('apiIp', apiIp)
       } else {

@@ -6,26 +6,34 @@ const getRandom = () => {
 
 export default {
   checkAlive () {
-    return Api().get(getRandom() ? 'alive/true.json' : 'alive/false.json')
+    return Api().get('alive')
+  },
+
+  setPromocode (promocode) {
+    return Api().get(`promocode/${promocode}`)
+  },
+
+  sendOrder (order) {
+    return Api().post('orders', order)
   },
 
   getPromotion () {
-    return Api().get('promotion.json')
+    return Api().get('promotion')
+  },
+
+  getActiveOrder () {
+    return Api().get('activeorder')
   },
 
   getMeals () {
-    return Api().get('meals.json')
+    return Api().get('meals')
   },
 
   getWorkHours () {
-    return Api().get('workhours.json')
+    return Api().get('workhours')
   },
 
   getDeliveryTime () {
-    return Api().get('delivers.json')
-  },
-
-  testPost (params) {
-    return Api().post('test', params)
+    return Api().get('delivers')
   }
 }

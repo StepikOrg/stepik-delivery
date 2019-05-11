@@ -5,7 +5,7 @@ export default () => {
 
     baseURL: `${localStorage.getItem('apiIp')}${process.env.NODE_ENV === 'production'
       ? 'stepik-delivery/'
-      : ''}data`,
+      : ''}`,
     headers: {
       'Content-Type': 'application/json'
     }

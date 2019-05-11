@@ -25,7 +25,6 @@ export default {
   methods: {
     async checkAlive() {
       const response = await DeliveryService.checkAlive()
-
       setTimeout(() => {
         response ? this.$router.push('home') : this.$router.push('sleep')
       }, 1000)

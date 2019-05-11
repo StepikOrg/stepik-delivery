@@ -2,7 +2,10 @@
 <div class="">
   <b-row class="mt-3">
     <b-col>
-      <template v-if="orderMeals.length">
+      <template v-if="isActiveOrder">
+        <b-alert variant="success" show>Заказ отправлен, ждите 🙂</b-alert>
+      </template>
+      <template v-else-if="orderMeals.length">
         <meals-list
           order
           :meals="orderMeals"
@@ -12,7 +15,7 @@
           @order:send="sendOrder"/>
       </template>
       <template v-else>
-        <strong>Корзина пуста</strong>
+        <b-alert variant="dark" show>Корзина пуста</b-alert>
       </template>
     </b-col>
   </b-row>
@@ -41,7 +44,9 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'orderMeals'
+      'orderMeals',
+      'promocode',
+      'isActiveOrder'
     ]),
     totalPrice () {
       let totalPrice = null
@@ -56,22 +61,33 @@ export default {
       this.$store.commit('REMOVE_MEAL', meal)
     },
     getTotalPrice () {
-      const totalPrice = 1129
+      const totalPrice = 0
       for (const meal of this.orderMeals) {
-        console.log(totalPrice);
         totalPrice = totalPrice + meal.price
       }
       return totalPrice
     },
-    sendOrder (orderForm) {
-      this.$bvToast.toast(`Не удалось отправить заказ`, {
-        title: 'Ошибка',
-        solid: true,
-        variant: 'danger',
-        toaster: 'b-toaster-top-center',
-        autoHideDelay: 3000,
-        appendToast: false
-      })
+    async sendOrder (orderForm) {
+      try {
+        const orderMealsId = this.orderMeals.map(i => i.id)
+
+        const order = await DeliveryService.sendOrder({
+          promocode: 'STEPIK',
+          meals: orderMealsId
+        })
+
+        this.$store.commit('SET_ORDER_ACTIVE')
+        this.$store.commit('RESET_CARD')
+      } catch (e) {
+        this.$bvToast.toast(`Не удалось отправить заказ`, {
+          title: 'Ошибка',
+          solid: true,
+          variant: 'danger',
+          toaster: 'b-toaster-top-center',
+          autoHideDelay: 3000,
+          appendToast: false
+        })
+      }
     }
   }
 }
