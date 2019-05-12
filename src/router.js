@@ -3,7 +3,8 @@ import Router from 'vue-router'
 
 import Start from './views/Start.vue'
 import Home from './views/Home.vue'
-import Order from './views/Order.vue'
+import Cart from './views/Cart.vue'
+import Orders from './views/Orders.vue'
 import Profile from './views/Profile.vue'
 
 import Sleep from './views/Sleep.vue'
@@ -28,11 +29,19 @@ export default new Router({
       component: Home
     },
     {
-      path: '/order',
-      name: 'order',
-      component: Order,
+      path: '/cart',
+      name: 'cart',
+      component: Cart,
       meta: {
         title: "Корзина"
+      }
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: Orders,
+      meta: {
+        title: "История заказов"
       }
     },
     {

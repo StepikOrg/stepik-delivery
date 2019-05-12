@@ -16,6 +16,9 @@
     <template v-else>
       <b-alert variant="danger" show>Корзина пуста</b-alert>
     </template>
+    <b-button
+      :to="{name: 'orders'}"
+      variant="dark">Показать историю заказов</b-button>
   </b-col>
 </b-row>
 </template>
@@ -29,7 +32,7 @@ import OrderForm from '@/components/OrderForm'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Order',
+  name: 'Cart',
   components: {
     MealsList,
     OrderForm
@@ -74,7 +77,7 @@ export default {
           meals: orderMealsId
         })
 
-        this.$store.commit('SET_ORDER_ACTIVE')
+        this.$store.commit('SET_ORDER_ACTIVE', true)
         this.$store.commit('RESET_CARD')
       } catch (e) {
         this.$bvToast.toast(`Не удалось отправить заказ`, {

@@ -1,7 +1,9 @@
 import * as types from '../types'
+import DeliveryService from '@/services/DeliveryService'
 
 const state = {
   orderMeals: [],
+  orders: [],
   promocode: null,
   isActive: false
 }
@@ -9,8 +11,20 @@ const state = {
 const getters = {
   orderMeals: state => state.orderMeals,
   orderMealsCount: state => state.orderMeals.length,
+  orders: state => state.orders,
   promocode: state => state.promocode,
   isActiveOrder: state => state.isActive
+}
+
+const actions = {
+  async getOrders ({ commit }) {
+    try {
+      const response = await DeliveryService.getOrders()
+      commit(types.SET_ORDERS, response)
+    } catch (e) {
+      commit(types.SET_ORDERS, null)
+    }
+  },
 }
 
 const mutations = {
@@ -29,13 +43,17 @@ const mutations = {
       discount: promocode.discount
     }
   },
-  [types.SET_ORDER_ACTIVE] (state) {
-    state.isActive = true
+  [types.SET_ORDER_ACTIVE] (state, status) {
+    state.isActive = status
+  },
+  [types.SET_ORDERS] (state, orders) {
+    state.orders = orders
   }
 }
 
 export default {
   state,
   getters,
+  actions,
   mutations
 }

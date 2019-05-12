@@ -29,7 +29,7 @@
     </b-nav-item>
     <b-nav-item
       v-if="isMainPage"
-      :to="{ name: 'order' }">
+      :to="{ name: 'cart' }">
       <img
         src="@/assets/icons/cart.svg"
         alt="Go back"

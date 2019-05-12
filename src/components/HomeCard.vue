@@ -14,6 +14,9 @@
           </div>
           <div class="">
             <b-badge variant="success">Идет доставка</b-badge>
+            <b-button
+              size="sm"
+              @click="$emit('activeorder:delete')">Отменить</b-button>
           </div>
         </div>
       </b-alert>

@@ -25,7 +25,9 @@
         </div>
       </div>
     </b-alert>
-    <b-form @submit="onSubmit">
+    <b-form
+      v-if="newProfile"
+      @submit.prevent="saveProfile">
       <b-form-group
         id="input-group-1"
         label="Имя"
@@ -33,7 +35,7 @@
       >
         <b-form-input
           id="input-1"
-          v-model="user.name"
+          v-model="newProfile.name"
           required
           placeholder="Александр"
         ></b-form-input>
@@ -42,8 +44,7 @@
       <b-form-group id="input-group-2" label="Телефон" label-for="input-2">
         <b-form-input
           id="input-2"
-          v-model="user.phone"
-          type="number"
+          v-model="newProfile.phone"
           required
           placeholder="+79991233232"
         ></b-form-input>
@@ -52,7 +53,7 @@
       <b-form-group id="input-group-3" label="Адрес" label-for="input-3">
         <b-form-textarea
           id="input-3"
-          v-model="user.address"
+          v-model="newProfile.address"
           required
           rows="3"
           max-rows="6"/>
@@ -66,32 +67,54 @@
 
 <script>
 import DeliveryService from '@/services/DeliveryService'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Profile',
   data() {
     return {
-      user: {
-        name: 'Александр',
-        phone: '89991233232',
-        address: 'Санкт-Петербург'
-      },
-      orders: null
+      newProfile: null
+    }
+  },
+  computed: {
+    ...mapGetters([ 'orders', 'profile' ])
+  },
+  watch: {
+    profile () {
+      this.newProfile = { ...this.profile }
     }
   },
   mounted () {
     this.getOrders()
+    this.getProfile()
   },
   methods: {
-    async getOrders () {
-      this.orders = await DeliveryService.getOrders()
-    },
-    onSubmit () {
-
+    ...mapActions([ 'getOrders', 'getProfile' ]),
+    async saveProfile () {
+      try {
+        await DeliveryService.updateProfile(this.newProfile)
+        this.getProfile()
+        this.$bvToast.toast(`Данные о пользователе обновлены`, {
+          title: 'Успех',
+          solid: true,
+          variant: 'success',
+          toaster: 'b-toaster-top-center',
+          autoHideDelay: 3000,
+          appendToast: false
+        })
+      } catch (e) {
+        this.$bvToast.toast(`Данные о пользователе не обновлены`, {
+          title: 'Ошибка',
+          solid: true,
+          variant: 'danger',
+          toaster: 'b-toaster-top-center',
+          autoHideDelay: 3000,
+          appendToast: false
+        })
+      }
     },
     goToOrdersHistory () {
-      console.log('');
-      this.$router.push({ name: orders })
+      this.$router.push({ name: 'orders' })
     }
   }
 }

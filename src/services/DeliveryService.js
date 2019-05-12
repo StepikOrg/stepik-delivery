@@ -17,12 +17,24 @@ export default {
     return Api().post('orders', order)
   },
 
+  getProfile () {
+    return Api().get('profile')
+  },
+
+  updateProfile (newProfile) {
+    return Api().patch('profile', newProfile)
+  },
+
   getPromotion () {
     return Api().get('promotion')
   },
 
   getActiveOrder () {
     return Api().get('activeorder')
+  },
+
+  deleteActiveOrder () {
+    return Api().delete('activeorder')
   },
 
   getMeals () {

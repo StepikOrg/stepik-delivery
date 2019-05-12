@@ -3,12 +3,13 @@
   <b-row class="mt-3">
     <b-col>
       <home-card
-      :promotion="promotion"
-      :promocode="promocode"
-      :workhours="workhours"
-      :activeOrder="activeOrder"
-      :deliveryTime="deliveryTime"
-      @promocode:set="setPromocode"/>
+        :promotion="promotion"
+        :promocode="promocode"
+        :workhours="workhours"
+        :activeOrder="activeOrder"
+        :deliveryTime="deliveryTime"
+        @promocode:set="setPromocode"
+        @activeorder:delete="deleteActiveOrder"/>
     </b-col>
   </b-row>
   <b-row class="mt-3">
@@ -35,7 +36,7 @@ import DeliveryService from '@/services/DeliveryService'
 import MealsList from '@/components/MealsList'
 import HomeCard from '@/components/HomeCard'
 
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
@@ -62,8 +63,10 @@ export default {
     this.getWorkHours()
     this.getDeliveryTime()
     this.getActiveOrder()
+    this.getProfile()
   },
   methods: {
+    ...mapActions([ 'getProfile' ]),
     async setPromocode (promocode) {
       try {
         const discount = await DeliveryService.setPromocode(promocode)
@@ -71,7 +74,7 @@ export default {
           name: promocode,
           discount: discount
         })
-        this.$bvToast.toast(`Промокод не найден`, {
+        this.$bvToast.toast(`Промокод успешно применен`, {
           title: 'Успех',
           solid: true,
           variant: 'success',
@@ -91,16 +94,41 @@ export default {
       }
     },
     async getPromotion () {
-      this.promotion = await DeliveryService.getPromotion()
+      try {
+        this.promotion = await DeliveryService.getPromotion()
+      } catch (e) {
+        this.promotion = null
+      }
     },
     async getMeals () {
-      this.meals = await DeliveryService.getMeals()
+      try {
+        this.meals = await DeliveryService.getMeals()
+      } catch (e) {
+        this.meals = null
+      }
     },
     async getWorkHours () {
-      this.workhours = await DeliveryService.getWorkHours()
+      try {
+        this.workhours = await DeliveryService.getWorkHours()
+      } catch (e) {
+        this.workhours = null
+      }
     },
     async getActiveOrder () {
-      this.activeOrder = await DeliveryService.getActiveOrder()
+      try {
+        this.activeOrder = await DeliveryService.getActiveOrder()
+      } catch (e) {
+        this.activeOrder = null
+      }
+    },
+    async deleteActiveOrder () {
+      try {
+        await DeliveryService.deleteActiveOrder()
+        this.$store.commit('SET_ORDER_ACTIVE', false)
+        this.getActiveOrder()
+      } catch (e) {
+
+      }
     },
     async getDeliveryTime () {
       const delivers = await DeliveryService.getDeliveryTime()
