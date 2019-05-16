@@ -6,7 +6,7 @@
         alt="loading..."
         width="156"
         height="156">
-      <strong class="mt-4">Сервер не отвечает </strong>
+      <strong class="mt-4">Сервер не отвечает</strong>
       <span class="mb-4">Возможно, прилег поспать</span>
       <b-button variant="dark" :to="{ name: 'start' }">Попровать еще раз</b-button>
     </div>

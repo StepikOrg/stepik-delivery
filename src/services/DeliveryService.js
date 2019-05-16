@@ -1,9 +1,5 @@
 import Api from '@/services/Api'
 
-const getRandom = () => {
-  return Math.random() >= 0.5
-}
-
 export default {
   checkAlive () {
     return Api().get('alive')

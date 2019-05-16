@@ -62,18 +62,17 @@ export default {
       this.$store.commit('REMOVE_MEAL', meal)
     },
     getTotalPrice () {
-      const totalPrice = 0
+      let totalPrice = 0
       for (const meal of this.orderMeals) {
         totalPrice = totalPrice + meal.price
       }
       return totalPrice
     },
-    async sendOrder (orderForm) {
+    async sendOrder () {
       try {
         const orderMealsId = this.orderMeals.map(i => i.id)
 
-        const order = await DeliveryService.sendOrder({
-          promocode: 'STEPIK',
+        await DeliveryService.sendOrder({
           meals: orderMealsId
         })
 

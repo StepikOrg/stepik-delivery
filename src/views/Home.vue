@@ -127,7 +127,7 @@ export default {
         this.$store.commit('SET_ORDER_ACTIVE', false)
         this.getActiveOrder()
       } catch (e) {
-
+        console.log(e)
       }
     },
     async getDeliveryTime () {

@@ -3,6 +3,7 @@
   <b-col>
     <b-card
       v-for="order in orders"
+      :key="order.id"
       class="mb-3">
       <b-card-text>
         <div class="">
@@ -10,6 +11,9 @@
           блюда на сумму
           <strong>{{ order.summ }}</strong>
           рублей
+        </div>
+        <div class="">
+          {{ order.status }}
         </div>
       </b-card-text>
       <!-- <b-button href="#" variant="primary">Go somewhere</b-button> -->

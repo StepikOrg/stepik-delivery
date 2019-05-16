@@ -51,7 +51,7 @@ export default {
   props: {
     meals: {
       type: Array,
-      default: []
+      default: () => []
     },
     counter: {
       type: Boolean,

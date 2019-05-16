@@ -20,7 +20,9 @@ const actions = {
   async getOrders ({ commit }) {
     try {
       const response = await DeliveryService.getOrders()
-      commit(types.SET_ORDERS, response)
+      const orders = response.reverse()
+
+      commit(types.SET_ORDERS, orders)
     } catch (e) {
       commit(types.SET_ORDERS, null)
     }
