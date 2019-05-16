@@ -10,7 +10,7 @@ npm run build
 cd dist
 
 # если вы публикуете на пользовательский домен
-# echo 'www.example.com' > CNAME
+echo 'delivery.stepik.org' > CNAME
 
 git init
 git add -A
