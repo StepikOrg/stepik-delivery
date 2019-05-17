@@ -6,7 +6,7 @@ export default {
       : 2]}`
   },
 
-  install (Vue, options) {
+  install (Vue) {
     Vue.filter('pluralize', this.pluralize)
 
     Vue.prototype.$pluralize = Vue.$pluralize = this.pluralize
