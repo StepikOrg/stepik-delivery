@@ -6,16 +6,24 @@
           <div>
             Доставка в <strong>{{ deliveryTime }}</strong>
           </div>
-          <div class="">
-            <strong>{{ activeOrder.meals.length }}</strong>
-            блюд на сумму
-            <strong>{{ activeOrder.summ }}</strong>
-            рублей
+          <div class="mt-1">
+            <strong>
+              {{ ['блюдо', 'блюда', 'блюд'] | pluralize(activeOrder.meals.length) }}
+            </strong>
+            на сумму
+            <strong>
+              {{ ['рубль', 'рубля', 'рублей'] | pluralize(activeOrder.summ) }}
+            </strong>
           </div>
-          <div class="">
-            <b-badge variant="success">Идет доставка</b-badge>
+          <div class="mt-2 d-flex justify-content-between">
+            <b-badge
+              class="px-2 d-flex align-items-center"
+              variant="success">
+              Идет доставка
+            </b-badge>
             <b-button
               size="sm"
+              variant="dark"
               @click="$emit('activeorder:delete')">Отменить</b-button>
           </div>
         </div>

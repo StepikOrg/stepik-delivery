@@ -11,7 +11,9 @@
             История заказов
           </div>
           <div>
-            <strong>{{ orders.length }} заказов</strong>
+            <strong>
+              {{ ['заказ', 'заказа', 'заказов'] | pluralize(orders.length) }}
+            </strong>
           </div>
         </div>
         <div class="d-flex align-items-center">

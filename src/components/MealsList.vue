@@ -1,7 +1,13 @@
 <template>
 <div class="meals-list">
-  <strong v-if="counter">{{ meals.length }} блюда в каталоге</strong>
-  <strong v-if="totalPrice">{{ meals.length }} товаров на сумму {{ totalPrice }} рублей</strong>
+  <strong v-if="counter">
+    {{ ['блюдо', 'блюда', 'блюд'] | pluralize(meals.length) }}
+    в каталоге</strong>
+  <strong v-if="totalPrice">
+    {{ ['товар', 'товара', 'товаров'] | pluralize(meals.length) }}
+    на сумму
+    {{ ['рубль', 'рубля', 'рублей'] | pluralize(totalPrice) }}
+  </strong>
   <ul class="list-unstyled mt-3">
     <b-media v-for="item in meals" :key="item.id" class="mb-4" tag="li">
       <b-img
@@ -17,7 +23,9 @@
       <div class="d-flex align-items-center justify-content-between">
         <div class="">
           <strong class="mt-0 mb-1">{{ item.title }}</strong>
-          <p class="mb-0">{{ item.price }} рублей</p>
+          <p class="mb-0">
+            {{ ['рубль', 'рубля', 'рублей'] | pluralize(item.price) }}
+          </p>
         </div>
         <div>
           <template v-if="!isOrdered(item.id)">

@@ -72,13 +72,20 @@ export default {
       try {
         const orderMealsId = this.orderMeals.map(i => i.id)
 
-        await DeliveryService.sendOrder({
+        const payload = {
           meals: orderMealsId
-        })
+        }
+
+        if (this.promocode) {
+          payload.promocode = this.promocode.name
+        }
+
+        await DeliveryService.sendOrder(payload)
 
         this.$store.commit('SET_ORDER_ACTIVE', true)
         this.$store.commit('RESET_CARD')
       } catch (e) {
+        console.log(e)
         this.$bvToast.toast(`Не удалось отправить заказ`, {
           title: 'Ошибка',
           solid: true,
