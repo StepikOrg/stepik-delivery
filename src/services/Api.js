@@ -3,7 +3,7 @@ import axios from 'axios'
 export default () => {
   const instance = axios.create({
 
-    baseURL: `${localStorage.getItem('apiIp')}`,
+    baseURL: `http://${window.location.hostname}:9000`,
     headers: {
       'Content-Type': 'application/json'
     }

@@ -16,15 +16,5 @@ Vue.use(filters)
 new Vue({
   router,
   store,
-  beforeCreate () {
-    if (!localStorage.getItem('apiIp')) {
-      const apiIp = prompt("Введите IP сервера", "http://kosmose.online:8000/");
-      if (apiIp != null) {
-        localStorage.setItem('apiIp', apiIp)
-      } else {
-        alert('Это обязательно!')
-      }
-    }
-  },
   render: h => h(App)
 }).$mount('#app')
